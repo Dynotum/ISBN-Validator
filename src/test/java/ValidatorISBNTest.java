@@ -11,7 +11,6 @@ public class ValidatorISBNTest {
         assertTrue("Effective java ISBN", result);
 
         result = validatorISBN.checkISBN("0984782869");
-
         assertTrue("CTCI", result);
     }
 
@@ -47,7 +46,6 @@ public class ValidatorISBNTest {
     public void nineDigitNotAllowed() {
         ValidatorISBN validatorISBN = new ValidatorISBN();
         validatorISBN.checkISBN("134685999");
-//        asser(result);
     }
 
     @Test(expected = NumberFormatException.class)
@@ -55,6 +53,5 @@ public class ValidatorISBNTest {
         ValidatorISBN validatorISBN = new ValidatorISBN();
         validatorISBN.checkISBN("helloworld");
     }
-
 
 }
