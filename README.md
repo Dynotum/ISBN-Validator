@@ -7,3 +7,6 @@ This little project was implemented following the ISBN rules as ISBN-10 check di
 
 # Test-Driven Development (TDD)
 ![Image](imgs/img.png)
+
+# Fakes, Stubs & Mocks test
+![Image](imgs/img_1.png)
