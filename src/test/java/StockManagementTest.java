@@ -52,9 +52,9 @@ public class StockManagementTest {
         final String locatorCode = stockManager.getLocatorCode(isbn);
 
         // Expects once that lookup on our database service was called with this value: 0140177396,
-        verify(databaseService, times(1)).lookup("0140177396");
+        verify(databaseService).lookup("0140177396");
 
-        verify(webService, times(0)).lookup(anyString());
+        verify(webService, never()).lookup(anyString());
 
     }
 
@@ -75,8 +75,8 @@ public class StockManagementTest {
         final String locatorCode = stockManager.getLocatorCode(isbn);
 
         // Verify how many times does the method was being called,
-        verify(databaseService, times(1)).lookup("0140177396");
+        verify(databaseService).lookup("0140177396");
 
-        verify(webService, times(1)).lookup("0140177396");
+        verify(webService).lookup("0140177396");
     }
 }
