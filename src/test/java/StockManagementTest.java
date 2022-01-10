@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class StockManagementTest {
 
@@ -37,11 +38,45 @@ public class StockManagementTest {
 
     @Test
     public void databaseIsUsedIfDataIsPresent() {
+        ExternalISBNDataService databaseService = mock(ExternalISBNDataService.class);
+        ExternalISBNDataService webService = mock(ExternalISBNDataService.class);
+
+        when(databaseService.lookup("0140177396"))
+                .thenReturn(new Book("0140177396", "abc", "abc"));
+
+        final StockManager stockManager = new StockManager();
+        stockManager.setWebService(webService);
+        stockManager.setDatabaseService(databaseService);
+
+        final String isbn = "0140177396";
+        final String locatorCode = stockManager.getLocatorCode(isbn);
+
+        // Expects once that lookup on our database service was called with this value: 0140177396,
+        verify(databaseService, times(1)).lookup("0140177396");
+
+        verify(webService, times(0)).lookup(anyString());
 
     }
 
     @Test
     public void webServiceIsUsedIfDataIsNotPresentInDatabase() {
+        ExternalISBNDataService databaseService = mock(ExternalISBNDataService.class);
+        ExternalISBNDataService webService = mock(ExternalISBNDataService.class);
 
+        when(databaseService.lookup("0140177396")).thenReturn(null);
+        when(webService.lookup("0140177396"))
+                .thenReturn(new Book("0140177396", "abc", "abc"));
+
+        final StockManager stockManager = new StockManager();
+        stockManager.setWebService(webService);
+        stockManager.setDatabaseService(databaseService);
+
+        final String isbn = "0140177396";
+        final String locatorCode = stockManager.getLocatorCode(isbn);
+
+        // Verify how many times does the method was being called,
+        verify(databaseService, times(1)).lookup("0140177396");
+
+        verify(webService, times(1)).lookup("0140177396");
     }
 }
